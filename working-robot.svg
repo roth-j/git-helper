@@ -1,0 +1,28 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Robot head -->
+  <rect x="40" y="40" width="120" height="100" rx="14" fill="white" stroke="black" stroke-width="4"/>
+
+  <!-- Antenna -->
+  <line x1="100" y1="40" x2="100" y2="20" stroke="black" stroke-width="4"/>
+  <circle cx="100" cy="15" r="5" fill="black"/>
+
+  <!-- Antenna signal -->
+  <path d="M88 18 Q100 5 112 18" fill="none" stroke="black" stroke-width="2"/>
+  <path d="M82 14 Q100 -4 118 14" fill="none" stroke="black" stroke-width="2"/>
+
+  <!-- Eyes -->
+  <circle cx="75" cy="80" r="10" fill="black"/>
+  <circle cx="125" cy="80" r="10" fill="black"/>
+
+  <!-- Mouth grill -->
+  <rect x="70" y="105" width="60" height="14" rx="2" fill="white" stroke="black" stroke-width="3"/>
+  <line x1="80" y1="105" x2="80" y2="119" stroke="black" stroke-width="2"/>
+  <line x1="90" y1="105" x2="90" y2="119" stroke="black" stroke-width="2"/>
+  <line x1="100" y1="105" x2="100" y2="119" stroke="black" stroke-width="2"/>
+  <line x1="110" y1="105" x2="110" y2="119" stroke="black" stroke-width="2"/>
+  <line x1="120" y1="105" x2="120" y2="119" stroke="black" stroke-width="2"/>
+
+  <!-- Side bolts -->
+  <circle cx="40" cy="90" r="6" fill="white" stroke="black" stroke-width="3"/>
+  <circle cx="160" cy="90" r="6" fill="white" stroke="black" stroke-width="3"/>
+</svg>

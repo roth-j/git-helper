@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Git Copy Helper",
+  "version": "1.0",
+  "description": "Adds copy buttons to GitHub links",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["nav-tab.js", "deploy-buttons.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "permissions": ["clipboardWrite"]
+}
+

@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Robot head -->
+  <rect x="40" y="40" width="120" height="100" rx="14" fill="white" stroke="black" stroke-width="4"/>
+
+  <!-- Antenna -->
+  <line x1="100" y1="40" x2="100" y2="20" stroke="black" stroke-width="4"/>
+  <circle cx="100" cy="15" r="5" fill="black"/>
+
+  <!-- Crack -->
+  <path d="M95 40 L85 65 L105 85 L90 110 L100 140" 
+        fill="none" stroke="black" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Left eye -->
+  <circle cx="75" cy="80" r="10" fill="black"/>
+
+  <!-- Broken right eye -->
+  <circle cx="125" cy="80" r="10" fill="none" stroke="black" stroke-width="4"/>
+  <line x1="118" y1="73" x2="132" y2="87" stroke="black" stroke-width="3"/>
+  <line x1="132" y1="73" x2="118" y2="87" stroke="black" stroke-width="3"/>
+
+  <!-- Mouth -->
+  <rect x="75" y="105" width="50" height="10" rx="2" fill="black"/>
+
+  <!-- Loose wire -->
+  <path d="M160 95 C180 95, 180 130, 150 130" 
+        fill="none" stroke="black" stroke-width="3"/>
+</svg>
