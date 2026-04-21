@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PR preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 12px;
+      width: 380px;
+      font: 13px/1.45 system-ui, sans-serif;
+      color: #1a1a1a;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .meta { font-size: 12px; color: #555; margin-bottom: 10px; }
+    .body {
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 8px;
+      background: #f6f8fa;
+      border-radius: 6px;
+      border: 1px solid #d0d7de;
+    }
+    .err { color: #a40e26; }
+    .token-row { margin-top: 12px; padding-top: 10px; border-top: 1px solid #eee; }
+    .token-row label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; }
+    .token-row input {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .token-row button {
+      margin-top: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .notes-row { margin-top: 12px; }
+    .notes-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .notes-head label { font-size: 11px; color: #666; }
+    .notes-head button {
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    #notes {
+      width: 100%;
+      min-height: 88px;
+      max-height: 160px;
+      padding: 8px;
+      font: 12px/1.4 ui-monospace, monospace;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      resize: vertical;
+    }
+    #notes:disabled {
+      background: #f0f0f0;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title"></h1>
+  <div class="meta" id="meta"></div>
+  <div id="content" class="body"></div>
+  <div class="notes-row">
+    <div class="notes-head">
+      <label for="notes">Notes</label>
+      <button type="button" id="copyNotes">Copy</button>
+    </div>
+    <textarea id="notes" spellcheck="true"></textarea>
+  </div>
+  <div class="token-row" id="myPrsRow">
+    <label for="myPrsUsername">My PRs — GitHub username</label>
+    <input id="myPrsUsername" type="text" autocomplete="username" spellcheck="false" placeholder="e.g. roth-j" />
+    <button type="button" id="saveMyPrsUsername">Save username</button>
+  </div>
+  <div class="token-row" id="tokenSection">
+    <label for="token">GitHub token (stored locally in this browser)</label>
+    <input id="token" type="password" autocomplete="off" placeholder="ghp_… or gho_…" />
+    <button type="button" id="saveToken">Save token</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

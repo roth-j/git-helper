@@ -1,4 +1,14 @@
-const MY_PRS_URL = 'https://github.com/OdenTech/platform/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aopen+author%3Aroth-j';
+const DEFAULT_MY_PRS_AUTHOR = 'roth-j';
+
+async function getMyPrsSearchUrl() {
+  const { myPrsUsername } = await chrome.storage.local.get('myPrsUsername');
+  const user =
+    typeof myPrsUsername === 'string' && myPrsUsername.trim()
+      ? myPrsUsername.trim()
+      : DEFAULT_MY_PRS_AUTHOR;
+  const q = `sort:updated-desc is:pr is:open author:${user}`;
+  return `https://github.com/OdenTech/platform/pulls?${new URLSearchParams({ q }).toString()}`;
+}
 
 function createEelIcon() {
   const span = document.createElement('span');
@@ -7,10 +17,16 @@ function createEelIcon() {
   return span;
 }
 
-function createMyPrsTab() {
-  if (document.querySelector('a[data-tab-item="my-pull-requests"]')) return;
+async function ensureMyPrsTab() {
   const prTab = document.querySelector('a[data-tab-item="pull-requests"]');
   if (!prTab) return;
+
+  const myPrsUrl = await getMyPrsSearchUrl();
+  const existing = document.querySelector('a[data-tab-item="my-pull-requests"]');
+  if (existing) {
+    existing.href = myPrsUrl;
+    return;
+  }
 
   const parentLi = prTab.closest('li');
   if (!parentLi) return;
@@ -19,7 +35,7 @@ function createMyPrsTab() {
   li.className = parentLi.className;
 
   const a = document.createElement('a');
-  a.href = MY_PRS_URL;
+  a.href = myPrsUrl;
   a.setAttribute('data-turbo-frame', 'repo-content-turbo-frame');
   a.className = prTab.className.replace(/\s*rgh-seen[^\s]*/g, '').replace(/\s*aria-current="page"/, '');
   a.setAttribute('data-tab-item', 'my-pull-requests');
@@ -37,10 +53,17 @@ function createMyPrsTab() {
 }
 
 function initMyPrsTab() {
-  createMyPrsTab();
-  const observer = new MutationObserver(() => createMyPrsTab());
+  void ensureMyPrsTab();
+  const observer = new MutationObserver(() => {
+    void ensureMyPrsTab();
+  });
   observer.observe(document.body, { childList: true, subtree: true });
 }
+
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName !== 'local' || changes.myPrsUsername === undefined) return;
+  void ensureMyPrsTab();
+});
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initMyPrsTab);
