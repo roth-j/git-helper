@@ -9,6 +9,8 @@ const tokenInput = document.getElementById('token');
 const saveTokenBtn = document.getElementById('saveToken');
 const notesEl = document.getElementById('notes');
 const copyNotesBtn = document.getElementById('copyNotes');
+const postNotesBtn = document.getElementById('postNotes');
+const notesPostFeedbackEl = document.getElementById('notesPostFeedback');
 const OWNER = 'OdenTech';
 const REPO = 'platform';
 
@@ -24,10 +26,12 @@ async function loadNotes(prNumber) {
     notesEl.value = '';
     notesEl.disabled = true;
     notesEl.placeholder = 'Open a preview URL with a PR number to save notes.';
+    postNotesBtn.disabled = true;
     return;
   }
   notesEl.disabled = false;
   notesEl.placeholder = 'Your notes…';
+  postNotesBtn.disabled = false;
   const key = notesKey(prNumber);
   const data = await chrome.storage.local.get(key);
   const v = data[key];
@@ -65,6 +69,32 @@ async function fetchPr(prNumber, token) {
       Authorization: `Bearer ${token}`,
       'X-GitHub-Api-Version': '2022-11-28',
     },
+  });
+  const text = await res.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    data = { message: text.slice(0, 200) };
+  }
+  if (!res.ok) {
+    const msg = data.message || res.statusText || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+  return data;
+}
+
+async function postIssueComment(prNumber, token, body) {
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues/${prNumber}/comments`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ body }),
   });
   const text = await res.text();
   let data;
@@ -141,6 +171,32 @@ notesEl.addEventListener('input', () => {
 
 copyNotesBtn.addEventListener('click', async () => {
   await navigator.clipboard.writeText(notesEl.value);
+});
+
+postNotesBtn.addEventListener('click', async () => {
+  notesPostFeedbackEl.textContent = '';
+  notesPostFeedbackEl.classList.remove('err');
+  if (currentNotesPr == null || notesEl.disabled) return;
+  const body = notesEl.value.trim();
+  if (!body) return;
+  const token = await getStoredToken();
+  if (!token) {
+    notesPostFeedbackEl.textContent = 'Add a GitHub token to post comments.';
+    notesPostFeedbackEl.classList.add('err');
+    return;
+  }
+  postNotesBtn.disabled = true;
+  try {
+    await postIssueComment(currentNotesPr, token, body);
+    clearTimeout(notesSaveTimer);
+    notesEl.value = '';
+    await chrome.storage.local.remove(notesKey(currentNotesPr));
+  } catch (e) {
+    notesPostFeedbackEl.textContent = e.message || String(e);
+    notesPostFeedbackEl.classList.add('err');
+  } finally {
+    postNotesBtn.disabled = !(currentNotesPr && !notesEl.disabled);
+  }
 });
 
 run();

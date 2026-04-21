@@ -213,6 +213,23 @@
       margin-bottom: 0;
     }
 
+    .notes-actions {
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .notes-post-feedback {
+      margin: 4px 0 0 0;
+      min-height: 1em;
+      font-size: 11px;
+      color: #96a0b3;
+    }
+
+    .notes-post-feedback.err {
+      color: #f08888;
+    }
+
     #notes {
       width: 100%;
       min-height: 88px;
@@ -254,8 +271,12 @@
   <div class="notes-row">
     <div class="notes-head flex-row flex-row-spaced">
       <label for="notes">Notes</label>
-      <button type="button" id="copyNotes" class="button button-small">Copy</button>
+      <div class="notes-actions flex-row">
+        <button type="button" id="copyNotes" class="button button-small">Copy</button>
+        <button type="button" id="postNotes" class="button button-small" disabled>Post</button>
+      </div>
     </div>
+    <p id="notesPostFeedback" class="notes-post-feedback"></p>
     <textarea id="notes" spellcheck="true"></textarea>
   </div>
   <div class="token-row" id="myPrsRow">
