@@ -15,7 +15,7 @@
       margin: unset;
       padding: 10px;
       transition-duration: 0.4s;
-      width: 325px;
+      width: 420px;
       font: 13px/1.45 system-ui, sans-serif;
     }
 
@@ -170,7 +170,7 @@
     }
 
     .token-row label,
-    .notes-head label {
+    .notes-row > label {
       display: block;
       font-size: 11px;
       color: #96a0b3;
@@ -203,24 +203,15 @@
       margin-top: 12px;
     }
 
-    .notes-head {
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .notes-head label {
-      margin-bottom: 0;
-    }
-
     .notes-actions {
+      margin-top: 8px;
       gap: 6px;
       align-items: center;
       flex-shrink: 0;
     }
 
     .notes-post-feedback {
-      margin: 4px 0 0 0;
+      margin: 6px 0 0 0;
       min-height: 1em;
       font-size: 11px;
       color: #96a0b3;
@@ -269,15 +260,13 @@
   </div>
   <div id="content" class="body"></div>
   <div class="notes-row">
-    <div class="notes-head flex-row flex-row-spaced">
-      <label for="notes">Notes</label>
-      <div class="notes-actions flex-row">
-        <button type="button" id="copyNotes" class="button button-small">Copy</button>
-        <button type="button" id="postNotes" class="button button-small" disabled>Post</button>
-      </div>
-    </div>
-    <p id="notesPostFeedback" class="notes-post-feedback"></p>
+    <label for="notes">Notes</label>
     <textarea id="notes" spellcheck="true"></textarea>
+    <p id="notesPostFeedback" class="notes-post-feedback"></p>
+    <div class="notes-actions flex-row">
+      <button type="button" id="copyNotes" class="button button-small">Copy</button>
+      <button type="button" id="postNotes" class="button button-small" disabled>Post</button>
+    </div>
   </div>
   <div class="token-row" id="myPrsRow">
     <label for="myPrsUsername">My PRs — GitHub username</label>
