@@ -10,22 +10,31 @@
     }
 
     body {
-      background-color: #343f50;
-      border: 4px solid #96a0b3;
+      background-color: #0d1117;
+      border: 4px solid #30363d;
       margin: unset;
-      padding: 10px;
+      padding: 12px;
       transition-duration: 0.4s;
-      width: 420px;
-      font: 13px/1.45 system-ui, sans-serif;
+      width: 620px;
+      font: 13px/1.5 system-ui, sans-serif;
+      color: #e6edf3;
     }
 
     .popup-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 12px;
       margin-bottom: 16px;
       padding-bottom: 12px;
-      border-bottom: 2px solid #414f62;
+      border-bottom: 2px solid #30363d;
+    }
+
+    .popup-header-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
     }
 
     .popup-brand-icon {
@@ -37,9 +46,34 @@
 
     .popup-app-title {
       margin: 0;
-      color: white;
+      color: #f0f6fc;
       font-size: 18px;
       font-weight: 600;
+    }
+
+    .settings-gear {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      margin: 0;
+      padding: 0;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #21262d;
+      color: #e6edf3;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .settings-gear:hover {
+      background: #30363d;
+      border-color: #8b949e;
+    }
+
+    .settings-gear[aria-expanded="true"] {
+      background: #388bfd33;
+      border-color: #388bfd;
     }
 
     .title-box {
@@ -47,7 +81,7 @@
     }
 
     h1 {
-      color: white;
+      color: #f0f6fc;
       margin: 5px 0 5px 5px;
       font-size: 16px;
       font-weight: 600;
@@ -55,7 +89,7 @@
 
     h3 {
       margin: 5px 0 0 0;
-      color: white;
+      color: #f0f6fc;
     }
 
     ul {
@@ -72,7 +106,7 @@
     }
 
     .doc-item a {
-      color: inherit;
+      color: #79c0ff;
     }
 
     li.doc-item {
@@ -81,9 +115,9 @@
 
     .button,
     .doc-item {
-      background-color: #343f50;
-      border: 2px solid #343f50;
-      color: #96a0b3;
+      background-color: #21262d;
+      border: 1px solid #30363d;
+      color: #e6edf3;
       padding: 15px 32px;
       text-align: center;
       text-decoration: none;
@@ -100,7 +134,7 @@
     }
 
     .button.toggle-switch {
-      border: 2px solid #414f62;
+      border: 2px solid #30363d;
     }
 
     .button.toggle-switch.left {
@@ -114,8 +148,9 @@
     .button:hover,
     .button.active,
     .doc-item:hover {
-      background-color: #414f62;
-      color: white;
+      background-color: #30363d;
+      border-color: #8b949e;
+      color: #f0f6fc;
     }
 
     .button:focus,
@@ -143,37 +178,155 @@
 
     .meta {
       margin: 5px 0 0 5px;
-      color: #96a0b3;
+      color: #8b949e;
       font-size: 12px;
     }
 
-    .body {
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 280px;
-      overflow-y: auto;
-      padding: 15px;
-      background-color: #414f62;
-      color: #96a0b3;
-      border: 2px solid #414f62;
-      transition-duration: 0.4s;
+    .meta a {
+      color: #79c0ff;
     }
 
-    .body.err {
-      color: #f08888;
+    #content.body {
+      white-space: normal;
+      word-break: break-word;
+      max-height: 320px;
+      overflow-y: auto;
+      padding: 14px 16px;
+      background-color: #161b22;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      transition-duration: 0.4s;
+      border-radius: 6px;
+    }
+
+    #content.body.err {
+      white-space: pre-wrap;
+      color: #ffa657;
+    }
+
+    #content.markdown-body p {
+      margin: 0 0 0.85em;
+    }
+
+    #content.markdown-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    #content.markdown-body h1,
+    #content.markdown-body h2,
+    #content.markdown-body h3,
+    #content.markdown-body h4 {
+      color: #f0f6fc;
+      margin: 1.1em 0 0.5em;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    #content.markdown-body h1:first-child,
+    #content.markdown-body h2:first-child,
+    #content.markdown-body h3:first-child {
+      margin-top: 0;
+    }
+
+    #content.markdown-body h1 {
+      font-size: 1.35em;
+    }
+
+    #content.markdown-body h2 {
+      font-size: 1.2em;
+    }
+
+    #content.markdown-body h3 {
+      font-size: 1.05em;
+    }
+
+    #content.markdown-body a {
+      color: #79c0ff;
+    }
+
+    #content.markdown-body code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92em;
+      padding: 0.15em 0.4em;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+    }
+
+    #content.markdown-body pre {
+      margin: 0 0 0.85em;
+      padding: 12px;
+      overflow: auto;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+    }
+
+    #content.markdown-body pre code {
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    #content.markdown-body ul,
+    #content.markdown-body ol {
+      margin: 0 0 0.85em;
+      padding-left: 1.4em;
+      color: #e6edf3;
+    }
+
+    #content.markdown-body blockquote {
+      margin: 0 0 0.85em;
+      padding: 0 0 0 1em;
+      border-left: 4px solid #388bfd;
+      color: #8b949e;
+    }
+
+    #content.markdown-body table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0 0 0.85em;
+      font-size: 12px;
+    }
+
+    #content.markdown-body th,
+    #content.markdown-body td {
+      border: 1px solid #30363d;
+      padding: 6px 8px;
+    }
+
+    #content.markdown-body th {
+      background: #21262d;
+      color: #f0f6fc;
+    }
+
+    .settings-panel[hidden] {
+      display: none !important;
+    }
+
+    .settings-panel {
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 2px solid #30363d;
     }
 
     .token-row {
       margin-top: 12px;
       padding-top: 10px;
-      border-top: 2px solid #414f62;
+      border-top: 1px solid #30363d;
+    }
+
+    .token-row:first-child {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: 0;
     }
 
     .token-row label,
     .notes-row > label {
       display: block;
       font-size: 11px;
-      color: #96a0b3;
+      color: #8b949e;
       margin-bottom: 4px;
     }
 
@@ -181,18 +334,19 @@
       width: 100%;
       padding: 8px 10px;
       font-size: 12px;
-      background-color: #414f62;
-      border: 2px solid #414f62;
-      color: white;
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      color: #f0f6fc;
       transition-duration: 0.4s;
+      border-radius: 6px;
     }
 
     .token-row input::placeholder {
-      color: #96a0b3;
+      color: #6e7681;
     }
 
     .token-row input:focus {
-      border-color: #96a0b3;
+      border-color: #388bfd;
     }
 
     .token-row .button {
@@ -201,6 +355,61 @@
 
     .notes-row {
       margin-top: 12px;
+    }
+
+    .notes-attachments {
+      margin-top: 8px;
+    }
+
+    .notes-attachments-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .attachment-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .attachment-chip {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #30363d;
+      flex-shrink: 0;
+    }
+
+    .attachment-chip img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .attachment-chip-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 0;
+      border-radius: 4px;
+      background: #21262dcc;
+      color: #f0f6fc;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .attachment-chip-remove:hover {
+      background: #f85149;
     }
 
     .notes-actions {
@@ -214,32 +423,33 @@
       margin: 6px 0 0 0;
       min-height: 1em;
       font-size: 11px;
-      color: #96a0b3;
+      color: #8b949e;
     }
 
     .notes-post-feedback.err {
-      color: #f08888;
+      color: #ffa657;
     }
 
     #notes {
       width: 100%;
       min-height: 88px;
-      max-height: 160px;
+      max-height: 200px;
       padding: 8px;
-      font: 12px/1.4 ui-monospace, monospace;
-      background-color: #414f62;
-      border: 2px solid #414f62;
-      color: white;
+      font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      color: #f0f6fc;
       resize: vertical;
       transition-duration: 0.4s;
+      border-radius: 6px;
     }
 
     #notes::placeholder {
-      color: #96a0b3;
+      color: #6e7681;
     }
 
     #notes:focus {
-      border-color: #96a0b3;
+      border-color: #388bfd;
       outline: none;
     }
 
@@ -251,8 +461,11 @@
 </head>
 <body>
   <header class="popup-header">
-    <img class="popup-brand-icon" src="octocat.png" width="56" height="56" alt="" />
-    <h2 class="popup-app-title">git helper</h2>
+    <div class="popup-header-main">
+      <img class="popup-brand-icon" src="octocat.png" width="56" height="56" alt="" />
+      <h2 class="popup-app-title">git helper</h2>
+    </div>
+    <button type="button" id="settingsToggle" class="settings-gear" aria-label="Settings" aria-expanded="false" title="Settings">⚙️</button>
   </header>
   <div class="title-box">
     <h1 id="title"></h1>
@@ -262,22 +475,33 @@
   <div class="notes-row">
     <label for="notes">Notes</label>
     <textarea id="notes" spellcheck="true"></textarea>
+    <div class="notes-attachments">
+      <input type="file" id="noteAttachments" accept="image/*" multiple hidden />
+      <div class="notes-attachments-toolbar">
+        <button type="button" id="attachImagesBtn" class="button button-small">Add images</button>
+      </div>
+      <div id="attachmentChips" class="attachment-chips" aria-live="polite"></div>
+    </div>
     <p id="notesPostFeedback" class="notes-post-feedback"></p>
     <div class="notes-actions flex-row">
       <button type="button" id="copyNotes" class="button button-small">Copy</button>
       <button type="button" id="postNotes" class="button button-small" disabled>Post</button>
     </div>
   </div>
-  <div class="token-row" id="myPrsRow">
-    <label for="myPrsUsername">My PRs — GitHub username</label>
-    <input id="myPrsUsername" type="text" autocomplete="username" spellcheck="false" placeholder="e.g. roth-j" />
-    <button type="button" id="saveMyPrsUsername" class="button button-small margin-btm">Save username</button>
+  <div id="settingsPanel" class="settings-panel" hidden>
+    <div class="token-row" id="myPrsRow">
+      <label for="myPrsUsername">My PRs — GitHub username</label>
+      <input id="myPrsUsername" type="text" autocomplete="username" spellcheck="false" placeholder="e.g. roth-j" />
+      <button type="button" id="saveMyPrsUsername" class="button button-small margin-btm">Save username</button>
+    </div>
+    <div class="token-row" id="tokenSection">
+      <label for="token">GitHub token (stored locally in this browser)</label>
+      <input id="token" type="password" autocomplete="off" placeholder="ghp_… or gho_…" />
+      <button type="button" id="saveToken" class="button button-small">Save token</button>
+    </div>
   </div>
-  <div class="token-row" id="tokenSection">
-    <label for="token">GitHub token (stored locally in this browser)</label>
-    <input id="token" type="password" autocomplete="off" placeholder="ghp_… or gho_…" />
-    <button type="button" id="saveToken" class="button button-small">Save token</button>
-  </div>
+  <script src="lib/purify.min.js"></script>
+  <script src="lib/marked.min.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
