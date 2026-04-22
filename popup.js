@@ -19,6 +19,8 @@ const notesPostFeedbackEl = document.getElementById('notesPostFeedback');
 const noteAttachmentsInput = document.getElementById('noteAttachments');
 const attachImagesBtn = document.getElementById('attachImagesBtn');
 const attachmentChipsEl = document.getElementById('attachmentChips');
+const approvePlusBtn = document.getElementById('approvePlusBtn');
+const approvePlusFeedbackEl = document.getElementById('approvePlusFeedback');
 
 const OWNER = 'OdenTech';
 const REPO = 'platform';
@@ -39,6 +41,10 @@ function updatePostButtonState() {
   }
   const hasText = notesEl.value.trim().length > 0;
   postNotesBtn.disabled = !hasText && pendingImages.length === 0;
+}
+
+function updateApprovePlusButtonState() {
+  approvePlusBtn.disabled = currentNotesPr == null || notesEl.disabled;
 }
 
 function renderAttachmentChips() {
@@ -94,6 +100,7 @@ async function loadNotes(prNumber) {
     clearAttachments();
     attachImagesBtn.disabled = true;
     noteAttachmentsInput.disabled = true;
+    updateApprovePlusButtonState();
     return;
   }
   notesEl.disabled = false;
@@ -106,6 +113,7 @@ async function loadNotes(prNumber) {
   const v = data[key];
   notesEl.value = typeof v === 'string' ? v : '';
   updatePostButtonState();
+  updateApprovePlusButtonState();
 }
 
 function prPageUrl(prNumber) {
@@ -302,6 +310,32 @@ async function uploadNoteImage(token, prNumber, file) {
   return dl;
 }
 
+async function postPullRequestReview(prNumber, token) {
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/pulls/${prNumber}/reviews`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ event: 'APPROVE', body: '/approve++' }),
+  });
+  const text = await res.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    data = { message: text.slice(0, 200) };
+  }
+  if (!res.ok) {
+    const msg = data.message || res.statusText || `HTTP ${res.status}`;
+    throw new Error(msg);
+  }
+  return data;
+}
+
 async function postIssueComment(prNumber, token, body) {
   const url = `https://api.github.com/repos/${OWNER}/${REPO}/issues/${prNumber}/comments`;
   const res = await fetch(url, {
@@ -470,6 +504,30 @@ postNotesBtn.addEventListener('click', async () => {
     noteAttachmentsInput.disabled = attachImagesBtn.disabled;
     postNotesBtn.disabled = !(currentNotesPr && !notesEl.disabled);
     updatePostButtonState();
+  }
+});
+
+approvePlusBtn.addEventListener('click', async () => {
+  approvePlusFeedbackEl.textContent = '';
+  approvePlusFeedbackEl.classList.remove('err', 'ok');
+  if (!currentNotesPr || notesEl.disabled) return;
+  const token = await getStoredToken();
+  if (!token) {
+    approvePlusFeedbackEl.textContent = 'Add a GitHub token in settings (⚙️).';
+    approvePlusFeedbackEl.classList.add('err');
+    return;
+  }
+  approvePlusBtn.disabled = true;
+  try {
+    await postPullRequestReview(currentNotesPr, token);
+    await run();
+    approvePlusFeedbackEl.textContent = 'Approved with /approve++.';
+    approvePlusFeedbackEl.classList.add('ok');
+  } catch (e) {
+    approvePlusFeedbackEl.textContent = e.message || String(e);
+    approvePlusFeedbackEl.classList.add('err');
+  } finally {
+    updateApprovePlusButtonState();
   }
 });
 

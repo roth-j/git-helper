@@ -437,6 +437,34 @@
       flex-shrink: 0;
     }
 
+    .approve-plus-row {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #30363d;
+      flex-shrink: 0;
+    }
+
+    .approve-plus-btn {
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      background-color: #238636;
+      border-color: #2ea043;
+      color: #ffffff;
+    }
+
+    .approve-plus-btn:hover:not(:disabled) {
+      background-color: #2ea043;
+      border-color: #3fb950;
+      color: #ffffff;
+    }
+
+    .approve-plus-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
     .notes-post-feedback {
       margin: 6px 0 0 0;
       min-height: 1em;
@@ -446,6 +474,10 @@
 
     .notes-post-feedback.err {
       color: #ffa657;
+    }
+
+    .notes-post-feedback.ok {
+      color: #3fb950;
     }
 
     #notes {
@@ -504,6 +536,12 @@
     <div class="notes-actions flex-row">
       <button type="button" id="copyNotes" class="button button-small">Copy</button>
       <button type="button" id="postNotes" class="button button-small" disabled>Post</button>
+    </div>
+    <div class="approve-plus-row">
+      <button type="button" id="approvePlusBtn" class="button approve-plus-btn" disabled>
+        approve++
+      </button>
+      <p id="approvePlusFeedback" class="notes-post-feedback"></p>
     </div>
   </div>
   <div id="settingsPanel" class="settings-panel" hidden>
