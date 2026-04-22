@@ -108,10 +108,28 @@ async function loadNotes(prNumber) {
   updatePostButtonState();
 }
 
+function prPageUrl(prNumber) {
+  return `https://github.com/${OWNER}/${REPO}/pull/${prNumber}`;
+}
+
+function setMetaLine(meta, metaHref) {
+  metaEl.replaceChildren();
+  if (metaHref) {
+    const a = document.createElement('a');
+    a.href = metaHref;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = meta;
+    metaEl.appendChild(a);
+  } else {
+    metaEl.textContent = meta;
+  }
+}
+
 function setState(title, meta, body, isError, options = {}) {
-  const { asMarkdown = false } = options;
+  const { asMarkdown = false, metaHref = null } = options;
   titleEl.textContent = title;
-  metaEl.textContent = meta;
+  setMetaLine(meta, metaHref);
   contentEl.classList.toggle('err', !!isError);
   contentEl.classList.toggle('markdown-body', !isError && asMarkdown);
   if (isError || !asMarkdown) {
@@ -328,12 +346,15 @@ async function run() {
     return;
   }
   const token = await getStoredToken();
+  const prUrl = prPageUrl(prNumber);
+  const prPathLabel = `github.com/${OWNER}/${REPO}/pull/${prNumber}`;
   if (!token) {
     setState(
       `PR #${prNumber}`,
+      prPathLabel,
       'Add a GitHub token in settings (⚙️) to load the PR description.',
-      '',
-      false
+      false,
+      { metaHref: prUrl }
     );
     return;
   }
@@ -342,11 +363,18 @@ async function run() {
   try {
     const pr = await fetchPr(prNumber, token);
     const desc = pr.body && String(pr.body).trim() ? pr.body : '(no description)';
-    setState(pr.title || `Pull request #${prNumber}`, `github.com/${OWNER}/${REPO}/pull/${prNumber}`, desc, false, {
+    setState(pr.title || `Pull request #${prNumber}`, prPathLabel, desc, false, {
       asMarkdown: true,
+      metaHref: prUrl,
     });
   } catch (e) {
-    setState(`PR #${prNumber}`, 'Could not load from GitHub', e.message || String(e), true);
+    setState(
+      `PR #${prNumber}`,
+      prPathLabel,
+      `Could not load from GitHub\n\n${e.message || String(e)}`,
+      true,
+      { metaHref: prUrl }
+    );
   }
 }
 
